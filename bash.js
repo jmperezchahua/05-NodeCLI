@@ -6,7 +6,15 @@ process.stdout.write("prompt > ");
 console.log("Ingresa algo...");
 
 process.stdin.on("data", function (data) {
-  var cmd = data.toString().trim(); // remueve la nueva línea
-  commands.commands(cmd);
+  const cmd = data.toString().trim(); // remueve la nueva línea
+  const newCmd = cmd.split(" ");
+  commands.commands(newCmd);
   process.stdout.write("\nprompt > ");
 });
+
+const startTime = new Date();
+setTimeout(function () {
+  const endTime = new Date();
+  console.log("Time elapsed: ", endTime - startTime, "ms");
+}, 100);
+while (new Date() - startTime < 200) {}

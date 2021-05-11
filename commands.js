@@ -14,8 +14,8 @@ const ls = () => {
   });
 };
 
-const commands = (input) => {
-  switch (input) {
+const commands = ([...input]) => {
+  switch (input[0]) {
     case "pwd":
       process.stdout.write(process.argv[1]);
       break;
@@ -24,6 +24,10 @@ const commands = (input) => {
       break;
     case "ls":
       ls();
+      break;
+    case "echo":
+      const output = input.slice(1, input.length);
+      process.stdout.write(output.join(" "));
       break;
     default:
       console.log("Ups! vuelve a escribir...");
