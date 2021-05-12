@@ -15,26 +15,22 @@ const ls = (dir = ".") => {
   });
 };
 
-const readFile = (file) => {
-  const filteContent = fs.readFile(file, "utf8", function (err, data) {
-    if (err) throw err;
-    console.log(data);
-  });
-};
-
-const readLineF = (file) => {
+const readLineFile = (file, cmd) => {
   //Iniciando readFile
   const readInterface = readline.createInterface({
     input: fs.createReadStream(file),
     output: process.stdout,
-    // console: false,
   });
 
   let count = 0;
   readInterface.on("line", function (line) {
     count++;
-    if (count <= 5) console.log("Linea [" + count + "] " + line);
+    if (cmd === "head") {
+      if (count >= 5) readInterface.close();
+    }
   });
+
+  // readInterface.on("history")
 };
 
 const commands = ([...input]) => {
@@ -54,10 +50,13 @@ const commands = ([...input]) => {
       process.stdout.write(nextCommand.join(" "));
       break;
     case "cat":
-      readFile(nextCommand[0]);
+      readLineFile(nextCommand[0]);
       break;
     case "head":
-      readLineF(nextCommand[0]);
+      readLineFile(nextCommand[0], "head");
+      break;
+    case "tail":
+      readLineFile(nextCommand[0], "tail");
       break;
     default:
       console.log("Ups! vuelve a escribir...");
